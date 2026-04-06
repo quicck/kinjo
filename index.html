@@ -1,30 +1,10 @@
 ---
 layout: default
 ---
-
-{% comment %}
-  1. ファイルをディレクトリ（path）ごとにグループ化します
-{% endcomment %}
-{% assign grouped_files = site.static_files | group_by_exp: "file", "file.path | split: '/' | slice: 0, -1 | join: '/'" %}
-
 <ul>
-  {% for group in grouped_files %}
-    {% comment %} ルートディレクトリ以外の場合、ディレクトリ名を表示 {% endcomment %}
-    {% if group.name != "" %}
-      <li>
-        <strong>{{ group.name | replace_first: "/", "" }}</strong>
-        <ul>
-    {% endif %}
-
-    {% for file in group.items %}
-      {% if file.extname == ".html" and file.name != "index.html" %}
-        <li><a href="{{ file.path | relative_url }}">{{ file.name }}</a></li>
-      {% endif %}
-    {% endfor %}
-
-    {% if group.name != "" %}
-        </ul>
-      </li>
+  {% for file in site.static_files %}
+    {% if file.extname == ".html" %}
+      <li><a href="{{ file.path | relative_url }}">{{ file.name }}</a></li>
     {% endif %}
   {% endfor %}
 </ul>
